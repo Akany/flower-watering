@@ -1,25 +1,21 @@
 import { h, app } from 'hyperapp';
 
+import axios from 'axios';
+
 import '../node_modules/bulma/css/bulma.css';
 
 import AppTitle from './components/app-title';
 import AppContent from './components/app-content';
 
 const state = {
-    wateringDate: new Date()
+    wateringDate: null,
+    loading: false
 };
 
 const actions = {
-    down: value => state => ({ count: state.count - value }),
-    up: value => state => ({ count: state.count + value }),
-    waterFlower: () => state => {
-        return Object
-            .assign(
-                {},
-                state,
-                {wateringDate: new Date()}
-            );
-    }
+    putStatus,
+    fetchStatus,
+    onFetchStatus
 };
 
 const view = (state, actions) =>
@@ -30,4 +26,32 @@ const view = (state, actions) =>
         ])
     ]);
 
-app(state, actions, view, document.body);
+const main = app(state, actions, view, document.body);
+
+main.fetchStatus();
+
+function putStatus() {
+    return (state, actions) => {
+        axios.put('/api/watering', {date: new Date().toISOString()})
+            .then((response) => actions.onFetchStatus(response));
+
+        return {loading: true};
+    }
+}
+
+function fetchStatus() {
+    return (state, actions) => {
+        axios.get('/api/watering')
+            .then(response => {
+                return actions.onFetchStatus(response.data)
+            });
+
+        return {loading: true};
+    };
+}
+
+function onFetchStatus(date) {
+    return (state) => {
+        return {wateringDate: date, loading: false};
+    };
+}

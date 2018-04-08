@@ -7,7 +7,7 @@ export default (state, actions) =>
             {
                 class: 'button is-primary',
                 onclick: () => {
-                    actions.waterFlower()
+                    actions.putStatus()
                 }
             },
             'Water Flowers'

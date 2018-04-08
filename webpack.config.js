@@ -4,13 +4,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: './app/main.js',
     output: {
-        filename: './dist/bundle.js'
+        filename: './bundle.js'
     },
 
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
-        port: 3000
+        port: 3000,
+        proxy: {
+            '/api': 'http://localhost:3010'
+        }
     },
 
     devtool: 'inline-source-map',
