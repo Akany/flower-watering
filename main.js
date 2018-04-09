@@ -3,6 +3,8 @@ const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 
+const PORT = process.env.PORT || 3010;
+
 let wateringDate = new Date();
 
 app.use(bodyParser.json());
@@ -20,4 +22,4 @@ app.put('/api/watering', (req, res) => {
 
 app.use(express.static('dist'));
 
-app.listen(3010, () => console.log('Example app listening on port 3000!'));
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

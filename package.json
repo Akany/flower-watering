@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "serve-app": "webpack-dev-server --mode=development",
     "build-app": "webpack --mode=production",
-    "serve": "nodemon main.js"
+    "serve": "nodemon main.js",
+    "start": "node main.js",
+    "heroku-postbuild": "npm run build-app"
   },
   "keywords": [],
   "author": "",
