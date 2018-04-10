@@ -17,6 +17,7 @@
     "bulma": "^0.6.2",
     "hyperapp": "^1.2.5",
     "moment": "^2.22.0",
+    "mongodb": "^3.0.6",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^3.1.2"

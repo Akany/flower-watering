@@ -50,8 +50,8 @@ function fetchStatus() {
     };
 }
 
-function onFetchStatus(date) {
+function onFetchStatus(dates) {
     return (state) => {
-        return {wateringDate: date, loading: false};
+        return {wateringDate: dates[dates.length], loading: false};
     };
 }
