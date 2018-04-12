@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     entry: './app/main.js',
@@ -29,6 +30,7 @@ module.exports = {
             meta: {
                 viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
             }
-        })
+        }),
+        new CopyWebpackPlugin(['./app/sw.js'])
     ]
 };

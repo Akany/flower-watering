@@ -30,6 +30,26 @@ const main = app(state, actions, view, document.body);
 
 main.fetchStatus();
 
+if ('serviceWorker' in navigator) {
+    window
+        .addEventListener('load', () => {
+            navigator
+                .serviceWorker
+                .register('/sw.js')
+                .then((registration) => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, (err) => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+}
+
+if ('Notification' in window) {
+    if (Notification.permission !== 'granted') {
+        Notification.requestPermission();
+    }
+}
+
 function putStatus() {
     return (state, actions) => {
         axios.put('/api/watering', {date: new Date().toISOString()})
@@ -52,6 +72,6 @@ function fetchStatus() {
 
 function onFetchStatus(dates) {
     return (state) => {
-        return {wateringDate: dates[dates.length], loading: false};
+        return {wateringDate: dates[dates.length - 1], loading: false};
     };
 }
