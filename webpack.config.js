@@ -1,6 +1,11 @@
 const path = require('path');
+const uniqid = require('uniqid');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+const uid = uniqid();
 
 module.exports = {
     entry: './app/main.js',
@@ -31,6 +36,13 @@ module.exports = {
                 viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
             }
         }),
-        new CopyWebpackPlugin(['./app/sw.js'])
+        new CopyWebpackPlugin([{
+            from: './app/sw.js',
+            to: `[name].${uid}.[ext]`
+        }]),
+        new CleanWebpackPlugin(['dist']),
+        new webpack.DefinePlugin({
+            SW_VERSION: JSON.stringify(uid)
+        })
     ]
 };

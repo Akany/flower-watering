@@ -36,7 +36,7 @@ if ('serviceWorker' in navigator) {
         .addEventListener('load', () => {
             navigator
                 .serviceWorker
-                .register('/sw.js')
+                .register(`/sw.${SW_VERSION}.js`)
                 .then((registration) => {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, (err) => {
@@ -74,7 +74,7 @@ function fetchStatus() {
 function onFetchStatus(dates) {
     return (state) => {
         const lastWateringDate = dates[dates.length - 1];
-        
+
         return {
             wateringDate: lastWateringDate,
             wateringStatus: toWateringStatus(lastWateringDate),
