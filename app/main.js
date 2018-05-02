@@ -9,6 +9,7 @@ import AppContent from './components/app-content';
 
 const state = {
     wateringDate: null,
+    wateringStatus: 'ok',
     loading: false
 };
 
@@ -72,6 +73,27 @@ function fetchStatus() {
 
 function onFetchStatus(dates) {
     return (state) => {
-        return {wateringDate: dates[dates.length - 1], loading: false};
+        const lastWateringDate = dates[dates.length - 1];
+        
+        return {
+            wateringDate: lastWateringDate,
+            wateringStatus: toWateringStatus(lastWateringDate),
+            loading: false
+        };
     };
+
+    function toWateringStatus(date) {
+        const day = 1000 * 60 * 60 * 24;
+        const timeDiff = (new Date() - new Date(date));
+
+        if (timeDiff < day) {
+            return 'ok';
+        }
+
+        if (timeDiff < day * 2) {
+            return 'warning';
+        }
+
+        return 'danger';
+    }
 }
