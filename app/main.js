@@ -36,7 +36,7 @@ if ('serviceWorker' in navigator) {
         .addEventListener('load', () => {
             navigator
                 .serviceWorker
-                .register(`/sw.${SW_VERSION}.js`)
+                .register('/sw.bundle.js')
                 .then((registration) => {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
                 }, (err) => {
