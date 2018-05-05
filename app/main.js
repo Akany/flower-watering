@@ -54,7 +54,7 @@ if ('Notification' in window) {
 function putStatus() {
     return (state, actions) => {
         axios.put('/api/watering', {date: new Date().toISOString()})
-            .then((response) => actions.onFetchStatus(response));
+            .then((response) => actions.onFetchStatus([response.data]));
 
         return {loading: true};
     }

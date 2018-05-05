@@ -35,7 +35,7 @@ MongoClient
             db
                 .collection('watering')
                 .insert({date: req.body.date})
-                .then(() => res.send());
+                .then(() => res.send(req.body.date));
         });
 
         app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
