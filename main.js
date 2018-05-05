@@ -4,8 +4,8 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const MongoClient = require('mongodb').MongoClient;
-const mongo_url = 'mongodb://akany:akany5@ds241489.mlab.com:41489/heroku_kjjq8qp9';
-const mongo_name = 'heroku_kjjq8qp9';
+const mongo_url = 'mongodb://akany:akany@ds014578.mlab.com:14578/flower-watering-test';
+const mongo_name = 'flower-watering-test';
 
 const PORT = process.env.PORT || 3010;
 const MONGODB_URI = process.env.MONGODB_URI || mongo_url;
