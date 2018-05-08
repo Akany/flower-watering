@@ -1,16 +1,15 @@
 const path = require('path');
 const uniqid = require('uniqid');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const uid = uniqid();
 
 module.exports = {
     entry: {
-        app: './app/main.js',
-        sw: './app/sw.js'
+        app: './app/main.js'
     },
     output: {
         filename: './[name].bundle.js'
@@ -41,9 +40,6 @@ module.exports = {
             }
         }),
         new CleanWebpackPlugin(['dist']),
-        new webpack.DefinePlugin({
-            SW_VERSION: JSON.stringify(uid)
-        }),
         new WebpackPwaManifest({
             name: 'Flower Watering',
             short_name: 'fWatering',
@@ -56,6 +52,9 @@ module.exports = {
               sizes: [36, 48, 72, 96, 144, 192, 512],
               destination: path.join('icons', 'android')
             }]
+        }),
+        new WorkboxPlugin.InjectManifest({
+            swSrc: './app/sw.js'
         })
     ]
 };

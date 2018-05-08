@@ -1,42 +1,6 @@
-const cacheName = `assets-cache-${SW_VERSION}`;
-/*
-    @TODO
-    Use webpack generated assets
-*/
-const cacheAssets = [
-    '/',
-    '/app.bundle.js'
-];
-
-self.addEventListener('install', (event) => {
-    const cache = caches
-        .open(cacheName)
-        .then((cache) => cache.addAll(cacheAssets));
-
-    event.waitUntil(cache);
-});
-
-self.addEventListener('activate', (event) => {
-    const clean$ = caches
-        .keys()
-        .then((keys) => {
-            const clean$ = keys
-                .filter((key) => key !== cacheName)
-                .map((key) => caches.delete(key));
-
-            return Promise.all(clean$);
-        });
-
-    event.waitUntil(clean$);
-});
-
-self.addEventListener('fetch', (event) => {
-    const cache = caches
-        .match(event.request)
-        .then((response) => response || fetch(event.request));
-
-    event.respondWith(cache);
-});
+workbox
+    .precaching
+    .precacheAndRoute(self.__precacheManifest || []);
 
 self.addEventListener('activate', () => {
     startWatcher();
