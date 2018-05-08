@@ -25,7 +25,7 @@ module.exports = {
         }
     },
 
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
 
     module: {
         rules: [
