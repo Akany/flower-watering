@@ -26,17 +26,34 @@ MongoClient
             .db(MONGODB_NAME);
 
         app.get('/api/watering', (req, res) => {
-            db
-                .collection('watering')
-                .find()
-                .toArray((error, response) => res.send(response.map((item) => item.date)));
+            getDates()
+                .then(dates => res.send(dates));
         });
         app.put('/api/watering', (req, res) => {
-            db
-                .collection('watering')
-                .insert({date: req.body.date})
-                .then(() => res.send(req.body.date));
+            putDate(req.body.date)
+                .then(getDates)
+                .then(dates => res.send(dates));
         });
 
         app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+
+        function getDates() {
+            return new Promise((resolve, reject) => {
+                db
+                .collection('watering')
+                .find()
+                .toArray((error, response) => {
+                    resolve(response
+                        .map((item) => item.date)
+                        .reverse()
+                    );
+                });
+            });
+        }
+
+        function putDate(date) {
+            return db
+                .collection('watering')
+                .insert({date});
+        }
     });

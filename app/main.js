@@ -8,15 +8,18 @@ import AppTitle from './components/app-title';
 import AppContent from './components/app-content';
 
 const state = {
+    wateringDates: [],
     wateringDate: null,
     wateringStatus: 'ok',
-    loading: false
+    loading: false,
+    hiddenListVisible: false
 };
 
 const actions = {
     putStatus,
     fetchStatus,
-    onFetchStatus
+    onFetchStatus,
+    showHiddenList
 };
 
 const view = (state, actions) =>
@@ -54,7 +57,7 @@ if ('Notification' in window) {
 function putStatus() {
     return (state, actions) => {
         axios.put('/api/watering', {date: new Date().toISOString()})
-            .then((response) => actions.onFetchStatus([response.data]));
+            .then((response) => actions.onFetchStatus(response.data));
 
         return {loading: true};
     }
@@ -73,9 +76,10 @@ function fetchStatus() {
 
 function onFetchStatus(dates) {
     return (state) => {
-        const lastWateringDate = dates[dates.length - 1];
+        const lastWateringDate = dates[0];
 
         return {
+            wateringDates: [...dates],
             wateringDate: lastWateringDate,
             wateringStatus: toWateringStatus(lastWateringDate),
             loading: false
@@ -95,5 +99,11 @@ function onFetchStatus(dates) {
         }
 
         return 'danger';
+    }
+}
+
+function showHiddenList() {
+    return (state) => {
+        return {hiddenListVisible: true};
     }
 }

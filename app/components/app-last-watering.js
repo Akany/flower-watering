@@ -3,12 +3,14 @@ import moment from 'moment';
 
 export default (state, actions) => {
     return h('div', {class: 'subtitle'}, [
-        h('span', {}, 'Last watering date: '),
+        h('div', {}, 'Last watering date: '),
         h(
-            'span',
+            'div',
             {class:
-                ['has-text-weight-semibold', statusToClass(state.wateringStatus)]
-                .join(' ')
+                [
+                    'has-text-weight-semibold has-text-right',
+                    statusToClass(state.wateringStatus)
+                ].join(' ')
             },
             state.loading ? 'Fetching...' : formatDate(state.wateringDate))
     ]);
@@ -16,7 +18,7 @@ export default (state, actions) => {
 }
 
 function formatDate(date) {
-    return moment(date).format('MMMM Do');
+    return moment(date).fromNow();
 }
 
 function statusToClass(status) {
