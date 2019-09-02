@@ -1,11 +1,9 @@
 const path = require('path');
-const uniqid = require('uniqid');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-
-const uid = uniqid();
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -16,7 +14,6 @@ module.exports = {
     },
 
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
         compress: true,
         port: 3000,
         proxy: {
@@ -39,6 +36,9 @@ module.exports = {
             meta: {
                 viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
             }
+        }),
+        new FaviconsWebpackPlugin({
+            logo: './app/assets/flower-icon.png'
         }),
         new CleanWebpackPlugin(['dist']),
         new WebpackPwaManifest({
