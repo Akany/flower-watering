@@ -46,6 +46,43 @@ if ('serviceWorker' in navigator) {
                     console.log('ServiceWorker registration failed: ', err);
                 });
         });
+
+    navigator
+        .serviceWorker
+        .ready
+        .then((registration) => {
+            return registration
+                .pushManager
+                .getSubscription()
+                .then((subscription) => {
+                    if (subscription) {
+                        return subscription;
+                    }
+
+                    return fetch('/push/vapidPublicKey')
+                        .then((response) => response.text())
+                        .then((vapidPublicKey) => urlBase64ToUint8Array(vapidPublicKey))
+                        .then((vapidPublicKey) => {
+                            return registration
+                                .pushManager
+                                .subscribe({
+                                    userVisibleOnly: true,
+                                    applicationServerKey: vapidPublicKey
+                                });
+                        })
+                        .then((subscription) => {
+                            fetch('/push/register', {
+                                method: 'post',
+                                headers: {
+                                  'Content-type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                  subscription: subscription
+                                })
+                            });
+                        });
+                });
+        });
 }
 
 if ('Notification' in window) {
@@ -106,4 +143,17 @@ function showHiddenList() {
     return (state) => {
         return {hiddenListVisible: true};
     }
+}
+
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+
+    return Uint8Array
+        .from([...rawData]
+        .map((char) => char.charCodeAt(0)));
 }

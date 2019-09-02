@@ -20,7 +20,8 @@ module.exports = {
         compress: true,
         port: 3000,
         proxy: {
-            '/api': 'http://localhost:3010'
+            '/api': 'http://localhost:3010',
+            '/push': 'http://localhost:3010'
         }
     },
 
