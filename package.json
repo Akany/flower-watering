@@ -20,7 +20,7 @@
     "mongodb": "^3.0.6"
   },
   "devDependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bulma": "^0.6.2",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
